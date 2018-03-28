@@ -1,9 +1,8 @@
 
 library(caret)
 
-# library(amap) # k-means package
-library(scAmap)
-library(tSIMLR)
+library(amap) # k-means package
+library(mySIMLR)
 
 library(parallel)
 library(edgeR)
@@ -25,20 +24,20 @@ toNumeric <- function(mat) {
 
 # returns filtered matrix
 filterMatrix <- function(mat, gene_p = 0.8, cell_p = 0.99) {
-
+  
   if (class(mat) == "data.frame") {
     mat <- as.matrix(mat)
   }
   if (typeof(mat) == "character") {
     mat <- toNumeric(mat)
   }
-
+  
   # filter genes
   del <- rowSums(mat == 0) / ncol(mat) > gene_p
   if (any(del == TRUE)) {
     mat <- mat[-which(del == TRUE),]
-  }
-
+  } 
+  
   # filter cells
   del <- colSums(mat == 0) / nrow(mat) > cell_p
   if (any(del == TRUE)) {
@@ -64,7 +63,7 @@ subsetMatrix <- function(mat, p = 0.8, rep = 5, seed = 1) {
   colnames(mat) <- tmp[order(tmp)]
   subsetIndex <- c()
   sub.mat <- list()
-
+  
   set.seed(seed)
   for (i in 1:rep) {
     subsetIndex[i] <- createDataPartition(colnames(mat), p = p)
@@ -81,21 +80,16 @@ getARI <- function(obj.list, method = "kmeans") {
       adjustedRandIndex(obj.list$truth, obj.list$manhatta$cluster),
       adjustedRandIndex(obj.list$truth, obj.list$correlation$cluster),
       adjustedRandIndex(obj.list$truth, obj.list$spearman$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$maximum$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$cosine$cluster)
-
-    )
+      adjustedRandIndex(obj.list$truth, obj.list$maximum$cluster)
+    ) 
   } else if (method == "simlr") {
     results <- c(
       adjustedRandIndex(obj.list$truth, obj.list$euclidean$y$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$manhattan$y$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$maximum$y$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$cosine$y$cluster),
       adjustedRandIndex(obj.list$truth, obj.list$pearson$y$cluster),
       adjustedRandIndex(obj.list$truth, obj.list$spearman$y$cluster)
     )
   }
-
+  
   return (results)
 }
 
@@ -106,21 +100,17 @@ getJaccard <- function(obj.list, method = "kmeans") {
       cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$manhatta$cluster), similarity = "jaccard", method = "independence"),
       cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$correlation$cluster), similarity = "jaccard", method = "independence"),
       cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$spearman$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$maximum$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$cosine$cluster), similarity = "jaccard", method = "independence")
+      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$maximum$cluster), similarity = "jaccard", method = "independence")
     )
   } else if (method == "simlr") {
     results <- c(
       cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$euclidean$y$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$manhattan$y$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$maximum$y$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$cosine$y$cluster), similarity = "jaccard", method = "independence"),
       cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$pearson$y$cluster), similarity = "jaccard", method = "independence"),
       cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$spearman$y$cluster), similarity = "jaccard", method = "independence")
-
+      
     )
   }
-
+  
   return (results)
 }
 
@@ -131,20 +121,16 @@ getFMindex <- function(obj.list, method = "kmeans") {
       FM_index(obj.list$truth, obj.list$manhatta$cluster),
       FM_index(obj.list$truth, obj.list$correlation$cluster),
       FM_index(obj.list$truth, obj.list$spearman$cluster),
-      FM_index(obj.list$truth, obj.list$maximum$cluster),
-      FM_index(obj.list$truth, obj.list$cosine$cluster)
+      FM_index(obj.list$truth, obj.list$maximum$cluster)
     )
   } else if (method == "simlr") {
     results <- c(
       FM_index(obj.list$truth, obj.list$euclidean$y$cluster),
-      FM_index(obj.list$truth, obj.list$manhattan$y$cluster),
-      FM_index(obj.list$truth, obj.list$maximum$y$cluster),
-      FM_index(obj.list$truth, obj.list$cosine$y$cluster),
       FM_index(obj.list$truth, obj.list$pearson$y$cluster),
       FM_index(obj.list$truth, obj.list$spearman$y$cluster)
     )
   }
-
+  
   return (results)
 }
 
@@ -155,21 +141,16 @@ getNMI <- function(obj.list, method = "kmeans") {
       igraph::compare(as.numeric(factor(obj.list$manhatta$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
       igraph::compare(as.numeric(factor(obj.list$correlation$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
       igraph::compare(as.numeric(factor(obj.list$spearman$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$maximum$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$cosine$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi")
-
+      igraph::compare(as.numeric(factor(obj.list$maximum$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi")
     )
   } else if(method == "simlr") {
     results <- c(
       igraph::compare(as.numeric(factor(obj.list$euclidean$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$manhattan$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$maximum$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$cosine$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
       igraph::compare(as.numeric(factor(obj.list$pearson$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
       igraph::compare(as.numeric(factor(obj.list$spearman$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi")
     )
   }
-
+  
   return (results)
 }
 
@@ -179,23 +160,23 @@ summarise_dat_to_mat <- function(dat, n = 5) {
   median_mat <- matrix(nrow = length(unique(dat$dist)), ncol = 1)
   sd_mat <- matrix(nrow = length(unique(dat$dist)), ncol = 1)
   mean_mat <- matrix(nrow = length(unique(dat$dist)), ncol = 1)
-
+  
   for (j in 1:length(unique(dat$dist))) {
     mat <- dat[dat$dist == unique(dat$dist)[j],]
     median_mat[j,1] <- apply(mat[, 1, drop = F], 2, median)
     sd_mat[j,1] <- apply(mat[, 1, drop = F], 2, sd)
     mean_mat[j,1] <- apply(mat[, 1, drop = F], 2, mean)
   }
-
+  
   rownames(median_mat) <- unique(dat$dist)
   rownames(sd_mat) <- unique(dat$dist)
   rownames(mean_mat) <- unique(dat$dist)
-
+  
   se_mat <- sd_mat/sqrt(n)
-
+  
   return (
     list(
-      median = median_mat,
+      median = median_mat, 
       sd = sd_mat,
       mean = mean_mat,
       se = se_mat
@@ -214,8 +195,8 @@ summarise_dat_to_mat <- function(dat, n = 5) {
 # returns Kmeans results
 getKmeans <- function(mat, seed = 1) {
   nCluster <- length(levels(factor(colnames(mat))))
-
-  distMethods <- c("euclidean", "manhattan", "correlation", "spearman", "maximum", "cosine")
+  
+  distMethods <- c("euclidean", "manhattan", "correlation", "spearman", "maximum")
   results <- list()
   for (i in 1:length(distMethods)) {
     set.seed(seed)
@@ -229,18 +210,18 @@ getKmeans <- function(mat, seed = 1) {
 # subsets the matrix and return their kmeans results
 kmeanSubMatrix <- function(mat, p = 0.8, rep = 5, seed = 1, cores = 1) {
   sub.mat <- subsetMatrix(mat, p, rep, seed)
-
+  
   # kmeans
   results <- mclapply(1:length(sub.mat), mc.cores = cores, function(i) {
     result <- getKmeans(sub.mat[[i]], seed)
   })
-
+  
   return (results)
 }
 
 
-kmeanSubMatrix_Dist <- function(mat, p = 0.8, rep = 5, seed = 1, cores = 1,
-                                distMethod = c("euclidean", "manhattan", "correlation", "spearman", "maximum", "cosine")) {
+kmeanSubMatrix_Dist <- function(mat, p = 0.8, rep = 5, seed = 1, cores = 1, 
+                                distMethod = c("euclidean", "manhattan", "correlation", "spearman", "maximum")) {
   sub.mat <- subsetMatrix(mat, p, rep, seed)
   results <- mclapply(1:length(sub.mat), mc.cores = cores, function(i) {
     mat <- sub.mat[[i]]
@@ -270,54 +251,53 @@ evaluateKmeans <- function(sub.kmeans) {
     cur.dat <- data.frame(
       val = c(ari, jaccard, fmi, nmi),
       eval = c(rep("ARI", length(ari)), rep("Jaccard", length(jaccard)), rep("FMindex", length(fmi)), rep("NMI", length(nmi))),
-      dist = rep(c("euclidean", "manhattan", "correlation", "spearman", "maximum", "cosine"), 4),
+      dist = rep(c("euclidean", "manhattan", "correlation", "spearman", "maximum"), 4),
       rep = rep(i, length(c(ari, jaccard, fmi, nmi)))
     )
     result.dat <- rbind(result.dat, cur.dat)
   }
   return(result.dat)
 }
-
+  
 plotKmeansEval <- function(kmeans.eval, eval.method = c("NMI", "FM", "ARI", "Jaccard")) {
   dat <- kmeans.eval[kmeans.eval$eval == eval.method[1],]
   dat.summary <- summarise_dat_to_mat(dat)
-
+  
   med <- reshape2::melt(dat.summary$median)
   se <- reshape2::melt(dat.summary$se)
   med <- cbind(med,se)
-
+  
   colnames(med) <- c("dist1", "data1", "median", "dist2", "data2", "se")
-
+  
   med <- cbind(med, rep(NA, nrow(med)))
   colnames(med) <- c(colnames(med)[-ncol(med)], "type")
-
+  
   tmp <- med
-
-  med$type[(med$dist1 == "correlation") | (med$dist1 == "spearman") | (med$dist1 == "cosine")] <- "correlation"
-  med$type[!((med$dist1 == "correlation") | (med$dist1 == "spearman") | (med$dist1 == "cosine"))] <- "abs magnitude"
-
-
+  
+  med$type[(med$dist1 == "correlation") | (med$dist1 == "spearman")] <- "correlation" 
+  med$type[!((med$dist1 == "correlation") | (med$dist1 == "spearman"))] <- "abs magnitude"
+  
+  
   med_dist <- med[med$type == "abs magnitude",]
   med_shape <- med[med$type == "correlation",]
-
-
+  
+  
   levels(med$dist1)[3] = "pearson"
-
+  
   p <- ggplot(med, aes( x = data1, y = median, fill = dist1)) +
-    geom_bar(stat = "identity", position = "dodge")  +
+    geom_bar(stat = "identity", position = "dodge")  + 
     geom_errorbar(aes(ymin = median-se, ymax = median+se),
                   width = .2,
                   position = position_dodge(.9)) +
     scale_fill_manual("legend",
-                      values = c("maximum" = "#feb24c",
-                                 "manhattan" = "#fd8d3c", "euclidean" = "#fc4e2a",
-                                 "spearman" = "#74a9cf", "cosine" = "#2b8cbe", "pearson" = "#045a8d")) +
-                                 # "spearman" = "#a6bddb", "pearson" = "#054287")) +
+                      values = c("maximum" = "#feb24c", 
+                                 "manhattan" = "#fd8d3c", "euclidean" = "#fc4e2a", 
+                                 "spearman" = "#a6bddb", "pearson" = "#054287")) +
     labs(title = "NMI bar plot (median + se)", x = "Datasets", y = "NMI values") +
     scale_y_continuous(limits = c(0, 1)) +
     coord_flip()
   return (p)
-
+  
 }
 
 
@@ -346,9 +326,6 @@ getSIMLR <- function(sub.mat, seed = 1) {
       euclidean = SIMLR(sub.mat[[j]], length(table(colnames(sub.mat[[j]]))), cores.ratio = 1, distMethod = "euclidean"),
       pearson = SIMLR(sub.mat[[j]], length(table(colnames(sub.mat[[j]]))), cores.ratio = 1, distMethod = "pearson"),
       spearman = SIMLR(sub.mat[[j]], length(table(colnames(sub.mat[[j]]))), cores.ratio = 1, distMethod = "spearman"),
-      cosine = SIMLR(sub.mat[[j]], length(table(colnames(sub.mat[[j]]))), cores.ratio = 1, distMethod = "cosine"),
-      maximum = SIMLR(sub.mat[[j]], length(table(colnames(sub.mat[[j]]))), cores.ratio = 1, distMethod = "maximum"),
-      manhattan = SIMLR(sub.mat[[j]], length(table(colnames(sub.mat[[j]]))), cores.ratio = 1, distMethod = "manhattan"),
       truth = colnames(sub.mat[[j]])
     )
   }
@@ -366,7 +343,7 @@ evaluateSIMLR <- function(sub.simlr) {
     cur.dat <- data.frame(
       val = c(ari, jaccard, fmi, nmi),
       eval = c(rep("ARI", length(ari)), rep("Jaccard", length(jaccard)), rep("FMindex", length(fmi)), rep("NMI", length(nmi))),
-      dist = rep(c("euclidean", "manhattan", "maximum", "cosine", "pearson", "spearman"), 4),
+      dist = rep(c("euclidean", "pearson", "spearman"), 4),
       rep = rep(i, length(c(ari, jaccard, fmi, nmi)))
     )
     result.dat <- rbind(result.dat, cur.dat)
@@ -384,42 +361,39 @@ simlrSubMatrix <- function(mat, p = 0.8, rep = 5, seed = 1, cores.ratio = 1) {
 plotSimlrEval <- function(simlr.eval, eval.method = c("NMI", "FM", "ARI", "Jaccard")) {
   dat <- simlr.eval[simlr.eval$eval == eval.method[1],]
   dat.summary <- summarise_dat_to_mat(dat)
-
+  
   med <- reshape2::melt(dat.summary$median)
   se <- reshape2::melt(dat.summary$se)
   med <- cbind(med,se)
-
+  
   colnames(med) <- c("dist1", "data1", "median", "dist2", "data2", "se")
-
+  
   med <- cbind(med, rep(NA, nrow(med)))
   colnames(med) <- c(colnames(med)[-ncol(med)], "type")
-
+  
   tmp <- med
-
-  med$type[(med$dist1 == "correlation") | (med$dist1 == "spearman") | (med$dist1 == "cosine")] <- "correlation"
-  med$type[!((med$dist1 == "correlation") | (med$dist1 == "spearman") | med$dist1 == "cosine")] <- "abs magnitude"
-
-
+  
+  med$type[(med$dist1 == "correlation") | (med$dist1 == "spearman")] <- "correlation" 
+  med$type[!((med$dist1 == "correlation") | (med$dist1 == "spearman"))] <- "abs magnitude"
+  
+  
   med_dist <- med[med$type == "abs magnitude",]
   med_shape <- med[med$type == "correlation",]
-
-
-
+  
+  
+  
   p <- ggplot(med, aes( x = data1, y = median, fill = dist1)) +
-    geom_bar(stat = "identity", position = "dodge")  +
+    geom_bar(stat = "identity", position = "dodge")  + 
     geom_errorbar(aes(ymin = median-se, ymax = median+se),
                   width = .2,
                   position = position_dodge(.9)) +
     scale_fill_manual("legend",
-                      values = c("maximum" = "#feb24c",
-                                 "manhattan" = "#fd8d3c", "euclidean" = "#fc4e2a",
-                                 "spearman" = "#74a9cf", "cosine" = "#2b8cbe", "pearson" = "#045a8d")) +
-                      # values = c("euclidean" = "#fc4e2a",
-                      #            "spearman" = "#a6bddb", "pearson" = "#054287")) +
+                      values = c("euclidean" = "#fc4e2a", 
+                                 "spearman" = "#a6bddb", "pearson" = "#054287")) +
     labs(title = "NMI bar plot (median + se)", x = "Datasets", y = "NMI values") +
     scale_y_continuous(limits = c(0, 1)) +
     coord_flip()
   return (p)
-
+  
 }
 
