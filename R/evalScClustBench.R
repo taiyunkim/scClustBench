@@ -4,7 +4,7 @@
 #'
 #' @examples
 #' evaluateScClustBench(sub.simlr, method = "simlr")
-#' evaluateScClustBench(sub.kmeans, method = "kmeans)
+#' evaluateScClustBench(sub.kmeans, method = "kmeans")
 #'
 #' @param sub.kmeans An object returned from \emph{scClustBench}
 #' @param method A method used in \emph{scClustBench}
