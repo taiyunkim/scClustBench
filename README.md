@@ -2,7 +2,27 @@
 
 This package is to perform clustering on single-cell RNA-sequencing data with different similarity metrics on k-means and SIMLR clustering methods.
 
+## Requirements
+
+Before the installation, some of R packages must be installed.
+These include:
+
+* parallel
+* amap
+* caret
+* mclust
+* clusteval
+* dendextend
+* igraph
+* foreach
+* doParallel
+* doSNOW
+* ggplot2
+* Hmisc 
+
+
 ## Installation
+
 
 ```r
 devtools::install_github("taiyunkim/scClustBench", build_vignettes = TRUE)
