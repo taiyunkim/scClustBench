@@ -9,37 +9,39 @@ scClustBench(mat, method = "simlr", similarity = NULL,
   ...)
 }
 \arguments{
-\item{mat}{a (m x n) data matrix of gene expression measurements of individual cells with rows representing genes and columns representing cells.}
+\item{mat}{a (m x n) data matrix of gene expression measurements of individual cells with rows representing genes and columns representing cells. column names of the \emph{mat} must be cell types.}
 
-\item{method}{Clustering method to be performed on the dataset between \emph{SIMLR} or \emph{kmeans} from \emph{amap} package. It is set to \emph{SIMLR} by default.}
+\item{method}{Clustering method to be performed on the dataset between "\emph{simlr}" from implemented version of \emph{SIMLR} package or "\emph{kmeans}" from \emph{amap} package. It is set to "\emph{simlr}" by default.}
 
-\item{similarity}{A similarity metric to be used for clustering. This must be one of "euclidean", "pearson" or "spearman". If \emph{kmeans} is chosen for method, other metrics available to kmeans in amap can be used.}
+\item{similarity}{A vector of similarity metrics to be used for clustering.}
 
 \item{geneFilter}{A threshold to remove genes. The genes that are not expressed more than the threshold across all the cells in the dataset will be removed. Genes will not be removed if set to 0.}
 
-\item{nCs}{number of clusters to be estimated}
+\item{rep}{A number of subsampling of the matrix}
+
+\item{subset_p}{Sampling percentage per cell types from \emph{mat}}
+
+\item{cores}{Number of cores to be used for parallel processing}
+
+\item{seed}{\emph{seed} for randomisation}
+
+\item{...}{An addtional paramaters for corresponding clustering  method specified from \emph{method}}
 }
 \value{
-For SIMLR, list of 8 elements describing the clusters obtained by SIMLR, of which y are the resulting clusters:
-	y = results of k-means clusterings,
- 	S = similarities computed by SIMLR,
- 	F = results from network diffiusion,
- 	ydata = data referring the the results by k-means,
- 	alphaK = clustering coefficients,
- 	execution.time = execution time of the present run,
- 	converge = iterative convergence values by T-SNE,
- 	LF = parameters of the clustering
-
-For Kmeans, a list with components:
-   cluster  = A vector of integers indicating the cluster to which each point is allocated
-   centers  = A matrix of cluster centres
-   withinss = The within-cluster sum of squares distance for each cluster
-   size     = The number of points in each cluster
+A list with length \emph{rep}.
+Each item in the list contain a list object indexed by similarity and the true label ("truth").
+The object indexed by similarity metric is a clustering result object.
 }
 \description{
-performs clustering on single-cell RNA-seq data.
+The data given by \emph{mat} is clustered in \emph{method} algorithm with various similarity metrics for benchmark.
+
+The data \emph{mat} must contain label information as column names to subsample the matrix by \emph{subset_p} number of cells per cluster in each \emph{rep}.
+}
+\details{
+Benchmark impact of similarity metric on clustering.
 }
 \examples{
-scClust(mat = BuettnerFlorian$in_X, c = BuettnerFlorian$n_clust, method = "simlr", similarity = "pearson")
+scClustBench(mat, method = "simlr", similarity = NULL, cores = 1, cores.ratio = 0)
+scClustBench(mat, method = "kmeans", similarity = NULL, cores = 1, iter.max = 100, nstart = 25)
 
 }

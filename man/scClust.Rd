@@ -12,28 +12,30 @@ scClust(mat, nCs, method = "simlr", similarity = "pearson",
 
 \item{nCs}{number of clusters to be estimated}
 
-\item{method}{Clustering method to be performed on the dataset between \emph{SIMLR} or \emph{kmeans} from \emph{amap} package. It is set to \emph{SIMLR} by default.}
+\item{method}{Clustering method to be performed on the dataset between "`simlr`" implemented version of SIMLR or "`kmeans`" from \emph{amap} package. It is set to "`simlr`" by default.}
 
-\item{similarity}{A similarity metric to be used for clustering. This must be one of "euclidean", "pearson" or "spearman". If \emph{kmeans} is chosen for method, other metrics available to kmeans in amap can be used.}
+\item{similarity}{A similarity metric to be used for clustering. This must be one of "`euclidean`", "`pearson`" or "`spearman`". If `kmeans` is chosen for method, "`manhattan`" and "`maximum`" distances are also available.}
 
 \item{geneFilter}{A threshold to remove genes. The genes that are not expressed more than the threshold across all the cells in the dataset will be removed. Genes will not be removed if set to 0.}
+
+\item{...}{an additional parameters for corresponding clustering method specified from `method`}
 }
 \value{
 For SIMLR, list of 8 elements describing the clusters obtained by SIMLR, of which y are the resulting clusters:
-	y = results of k-means clusterings,
- 	S = similarities computed by SIMLR,
- 	F = results from network diffiusion,
- 	ydata = data referring the the results by k-means,
- 	alphaK = clustering coefficients,
- 	execution.time = execution time of the present run,
- 	converge = iterative convergence values by T-SNE,
- 	LF = parameters of the clustering
+	`y`` = results of k-means clusterings,
+ 	`S` = similarities computed by SIMLR,
+ 	`F` = results from network diffiusion,
+ 	`ydata` = data referring the the results by k-means,
+ 	`alphaK` = clustering coefficients,
+ 	`execution.time`` = execution time of the present run,
+ 	`converge` = iterative convergence values by T-SNE,
+ 	`LF` = parameters of the clustering
 
 For Kmeans, a list with components:
-   cluster  = A vector of integers indicating the cluster to which each point is allocated
-   centers  = A matrix of cluster centres
-   withinss = The within-cluster sum of squares distance for each cluster
-   size     = The number of points in each cluster
+   `cluster`  = A vector of integers indicating the cluster to which each point is allocated
+   `centers`  = A matrix of cluster centres
+   `withinss` = The within-cluster sum of squares distance for each cluster
+   `size`     = The number of points in each cluster
 }
 \description{
 performs clustering on single-cell RNA-seq data.
