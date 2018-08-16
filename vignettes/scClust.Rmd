@@ -24,7 +24,7 @@ vignette: >
 library(scClust)
 
 # Load dataset
-data(GSE45719)
+data("GSE45719")
 
 
 # Show dataset
