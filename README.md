@@ -4,11 +4,18 @@ This package is to perform clustering on single-cell RNA-sequencing data with di
 
 ## Installation
 
+```r
+devtools::install_github("taiyunkim/scClustBench", build_vignettes = TRUE)
+library(scClust)
+```
+
+Building the vignette may take some time. If you wish not to create the vignette during installation, try:
 
 ```r
 devtools::install_github("taiyunkim/scClustBench")
 library(scClust)
 ```
+
 
 Current version of this package is implemented to run SIMLR (Wang et al, 2017) or k-means clustering methods with various similarity metrics.
 
