@@ -78,8 +78,6 @@ p
 ## Using Kmeans clustering to benchmark
 
 ```{r warning=F, error=F}
-
-
 km.bench <- scClustBench(mat, method = "kmeans", similarity = NULL, rep = 2, cores = 4)
 
 km.bench.eval <- evalScClustBench(km.bench, method = "kmeans")

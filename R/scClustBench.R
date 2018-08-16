@@ -76,8 +76,10 @@ scClustBench <- function(mat, method = "simlr", similarity = NULL, geneFilter = 
     result <- simlrSubMatrix(mat, p = subset_p, similarity = similarity, rep = rep, cores = cores, seed = seed, os = os, ...)
   } else if (method == "kmeans") {
 
-    if (!is.null(similarity) & similarity == "pearson") {
-      similarity = "correlation"
+    if (!is.null(similarity)) {
+      if (similarity == "pearson") {
+        similarity = "correlation"
+      }
     }
     result <- kmeanSubMatrix(mat, p = subset_p, similarity = similarity, rep = rep, cores = cores, seed = seed, os = os, ...)
 
