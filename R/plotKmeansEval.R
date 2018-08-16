@@ -11,7 +11,7 @@
 #'
 #' @return ggplot object
 #'
-#' @export plotSimlrEval
+#' @export plotKmeansEval
 #' @importFrom parallel stopCluster makeCluster detectCores clusterEvalQ
 #' @importFrom parallel parLapply
 #' @importFrom stats dnorm kmeans pbeta rnorm
