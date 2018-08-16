@@ -1,0 +1,88 @@
+---
+title: "Using the scClust package for clustering"
+author: "Taiyun Kim"
+date: "13/08/2018"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    code_folding: show
+    number_sections: true
+ # rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{scClust}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+
+```{r}
+# Load library
+library(scClust)
+
+# Load dataset
+data(GSE45719)
+
+
+# Show dataset
+GSE45719[1:5,1:5]
+
+
+
+# Number of clusters
+print(paste("GSE45719 dataset has ", length(table(colnames(GSE45719))), " clusters", sep = ""))
+
+mat <- GSE45719
+nCs <- length(table(colnames(GSE45719)))
+```
+
+# Section 1. scClust
+
+
+## Using SIMLR clustering from using pearson correlation
+
+```{r warning=F, error=F}
+simlr.result <- scClust(mat, nCs, method = "simlr", similarity = "pearson", geneFilter = 0, seed = 1, cores.ratio = 1)
+```
+
+
+
+## Using kmeans clustering from amap package
+
+```{r warning=F, error=F}
+km.result <- scClust(mat, nCs, method = "kmeans", similarity = "pearson", geneFilter = 0, seed = 1, iter.max = 100, nstart = 25)
+```
+
+
+
+# Section 2. Benchmark different metrics with scClust
+
+
+## Using SIMLR clustering to benchmark
+
+```{r warning=F, error=F}
+
+
+simlr.bench <- scClustBench(mat, method = "simlr", similarity = NULL, cores = 4, cores.ratio = 0)
+
+simlr.bench.eval <- evalScClustBench(simlr.bench, method = "simlr")
+
+# p <- plotSimlrEval(simlr.bench.eval)
+# p
+```
+
+
+## Using Kmeans clustering to benchmark
+
+```{r warning=F, error=F}
+
+
+km.bench <- scClustBench(mat, method = "kmeans", similarity = NULL, cores = 4)
+
+
+```
+
+
