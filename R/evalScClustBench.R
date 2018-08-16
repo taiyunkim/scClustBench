@@ -32,7 +32,7 @@
 #' @import doSNOW
 #' @useDynLib scClust projsplx
 #'
-"evaluateScClustBench" <- function(sub.kmeans, method = "simlr") {
+"evalScClustBench" <- function(sub.kmeans, method = "simlr") {
   # for each subset matrix kmeans
   result.dat <- data.frame()
   for (i in 1:length(sub.kmeans)) {

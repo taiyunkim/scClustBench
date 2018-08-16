@@ -30,6 +30,8 @@ data("GSE45719")
 # Show dataset
 GSE45719[1:5,1:5]
 
+# The dataset needs to be log-transformed
+GSE45719 <- log2(GSE45719+1)
 
 
 # Number of clusters
@@ -45,7 +47,7 @@ nCs <- length(table(colnames(GSE45719)))
 ## Using SIMLR clustering from using pearson correlation
 
 ```{r warning=F, error=F}
-simlr.result <- scClust(mat, nCs, method = "simlr", similarity = "pearson", geneFilter = 0, seed = 1, cores.ratio = 1)
+simlr.result <- scClust(mat, nCs, method = "simlr", similarity = "pearson", geneFilter = 0.8, seed = 1, cores.ratio = 1)
 ```
 
 
@@ -53,7 +55,7 @@ simlr.result <- scClust(mat, nCs, method = "simlr", similarity = "pearson", gene
 ## Using kmeans clustering from amap package
 
 ```{r warning=F, error=F}
-km.result <- scClust(mat, nCs, method = "kmeans", similarity = "pearson", geneFilter = 0, seed = 1, iter.max = 100, nstart = 25)
+km.result <- scClust(mat, nCs, method = "kmeans", similarity = "pearson", geneFilter = 0.8, seed = 1, iter.max = 100, nstart = 25)
 ```
 
 
@@ -64,14 +66,12 @@ km.result <- scClust(mat, nCs, method = "kmeans", similarity = "pearson", geneFi
 ## Using SIMLR clustering to benchmark
 
 ```{r warning=F, error=F}
-
-
-simlr.bench <- scClustBench(mat, method = "simlr", similarity = NULL, cores = 4, cores.ratio = 0)
+simlr.bench <- scClustBench(mat, method = "simlr", similarity = NULL, cores = 4, rep = 2, cores.ratio = 0)
 
 simlr.bench.eval <- evalScClustBench(simlr.bench, method = "simlr")
 
-# p <- plotSimlrEval(simlr.bench.eval)
-# p
+p <- plotSimlrEval(simlr.bench.eval)
+p
 ```
 
 
@@ -80,9 +80,17 @@ simlr.bench.eval <- evalScClustBench(simlr.bench, method = "simlr")
 ```{r warning=F, error=F}
 
 
-km.bench <- scClustBench(mat, method = "kmeans", similarity = NULL, cores = 4)
+km.bench <- scClustBench(mat, method = "kmeans", similarity = NULL, rep = 2, cores = 4)
 
+km.bench.eval <- evalScClustBench(km.bench, method = "kmeans")
+
+p <- plotKmeansEval(km.bench.eval)
+p
 
 ```
 
+# SessionInfo
 
+```{r}
+sessionInfo()
+```
