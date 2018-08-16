@@ -1,7 +1,7 @@
 Package: scClust
 Type: Package
 Title: Clustering single-cell RNA seq data using kmeans or SIMLR
-Version: 0.1.0
+Version: 0.2.0
 Author: Taiyun Kim
 Maintainer: Taiyun Kim <taiyun.kim@sydney.edu.au>
 Description: This package re-implements clustering method SIMLR to use other similarity metrics for clustering. It also allows clustering on just kmeans algorithms for clustering

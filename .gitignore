@@ -1,2 +1,4 @@
-./vignettes*
-./scClust.Rproj*
+vignettes/*
+scClust.Rproj
+.Rproj.user
+tmp/*

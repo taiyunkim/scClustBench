@@ -1,11 +1,11 @@
-#' plot evaluations returned from \emph{evaluateSIMLR}
+#' plot evaluations returned from \emph{evalScClustBench}
 #'
 #' @title plotSimlrEval
 #'
 #' @examples
 #'
 #'
-#' @param simlr.eval An object returned from \emph{evaluateSIMLR}
+#' @param simlr.eval An object returned from \emph{evalScClustBench}
 #' @param eval.method Evaluation method to be plotted. Available options are: NMI (default), FM, Jaccard and ARI.
 #'
 #'

@@ -62,80 +62,75 @@
 
 "getARI" <- function(obj.list, method = "kmeans") {
   if (method == "kmeans") {
-    results <- c(
-      adjustedRandIndex(obj.list$truth, obj.list$euclidean$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$manhatta$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$correlation$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$spearman$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$maximum$cluster)
-    )
+    truth <- obj.list[["truth"]]
+    obj.list["truth"] <- NULL
+    results <- sapply(obj.list, FUN = function(i) {
+      adjustedRandIndex(truth, i$cluster)
+    }, USE.NAMES = T)
+    # results <- c(
+    #   adjustedRandIndex(obj.list$truth, obj.list$euclidean$cluster),
+    #   adjustedRandIndex(obj.list$truth, obj.list$manhatta$cluster),
+    #   adjustedRandIndex(obj.list$truth, obj.list$correlation$cluster),
+    #   adjustedRandIndex(obj.list$truth, obj.list$spearman$cluster),
+    #   adjustedRandIndex(obj.list$truth, obj.list$maximum$cluster)
+    # )
   } else if (method == "simlr") {
-    results <- c(
-      adjustedRandIndex(obj.list$truth, obj.list$euclidean$y$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$pearson$y$cluster),
-      adjustedRandIndex(obj.list$truth, obj.list$spearman$y$cluster)
-    )
+    truth <- obj.list[["truth"]]
+    obj.list["truth"] <- NULL
+    results <- sapply(obj.list, FUN = function(i) {
+      adjustedRandIndex(truth, i$y$cluster)
+    }, USE.NAMES = T)
+
   }
 
   return (results)
 }
 
 "getJaccard" <- function(obj.list, method = "kmeans") {
+  truth <- obj.list[["truth"]]
+  obj.list["truth"] <- NULL
   if (method == "kmeans") {
-    results <- c(
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$euclidean$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$manhatta$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$correlation$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$spearman$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$maximum$cluster), similarity = "jaccard", method = "independence")
-    )
+    results <- sapply(obj.list, FUN = function(i) {
+      cluster_similarity(as.numeric(factor(truth)), as.numeric(factor(i$cluster)), similarity = "jaccard", method = "independence")
+    }, USE.NAMES = T)
   } else if (method == "simlr") {
-    results <- c(
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$euclidean$y$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$pearson$y$cluster), similarity = "jaccard", method = "independence"),
-      cluster_similarity(as.numeric(factor(obj.list$truth)), as.numeric(obj.list$spearman$y$cluster), similarity = "jaccard", method = "independence")
-
-    )
+    results <- sapply(obj.list, FUN = function(i) {
+      cluster_similarity(as.numeric(factor(truth)), as.numeric(factor(i$y$cluster)), similarity = "jaccard", method = "independence")
+    }, USE.NAMES = T)
   }
 
   return (results)
 }
 
 "getFMindex" <- function(obj.list, method = "kmeans") {
+  truth <- obj.list[["truth"]]
+  obj.list["truth"] <- NULL
   if (method == "kmeans") {
-    results <- c(
-      FM_index(obj.list$truth, obj.list$euclidean$cluster),
-      FM_index(obj.list$truth, obj.list$manhatta$cluster),
-      FM_index(obj.list$truth, obj.list$correlation$cluster),
-      FM_index(obj.list$truth, obj.list$spearman$cluster),
-      FM_index(obj.list$truth, obj.list$maximum$cluster)
-    )
+    results <- sapply(obj.list, FUN = function(i) {
+      FM_index(truth, i$cluster)
+    }, USE.NAMES = T)
+
   } else if (method == "simlr") {
-    results <- c(
-      FM_index(obj.list$truth, obj.list$euclidean$y$cluster),
-      FM_index(obj.list$truth, obj.list$pearson$y$cluster),
-      FM_index(obj.list$truth, obj.list$spearman$y$cluster)
-    )
+    results <- sapply(obj.list, FUN = function(i) {
+      FM_index(truth, i$y$cluster)
+    }, USE.NAMES = T)
   }
 
   return (results)
 }
 
 "getNMI" <- function(obj.list, method = "kmeans") {
+  truth <- obj.list[["truth"]]
+  obj.list["truth"] <- NULL
   if (method == "kmeans") {
-    results <- c(
-      igraph::compare(as.numeric(factor(obj.list$euclidean$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$manhatta$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$correlation$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$spearman$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$maximum$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi")
-    )
-  } else if(method == "simlr") {
-    results <- c(
-      igraph::compare(as.numeric(factor(obj.list$euclidean$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$pearson$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi"),
-      igraph::compare(as.numeric(factor(obj.list$spearman$y$cluster)), as.numeric(factor(obj.list$truth)), method = "nmi")
-    )
+    results <- sapply(obj.list, FUN = function(i) {
+      igraph::compare(as.numeric(factor(i$cluster)), as.numeric(factor(truth)), method = "nmi")
+    }, USE.NAMES = T)
+
+  } else if (method == "simlr") {
+    results <- sapply(obj.list, FUN = function(i) {
+      igraph::compare(as.numeric(factor(i$y$cluster)), as.numeric(factor(truth)), method = "nmi")
+    }, USE.NAMES = T)
   }
 
   return (results)
@@ -275,46 +270,6 @@
   return(result.dat)
 }
 
-"plotKmeansEval" <- function(kmeans.eval, eval.method = c("NMI", "FM", "ARI", "Jaccard")) {
-  dat <- kmeans.eval[kmeans.eval$eval == eval.method[1],]
-  dat.summary <- summarise_dat_to_mat(dat)
-
-  med <- reshape2::melt(dat.summary$median)
-  se <- reshape2::melt(dat.summary$se)
-  med <- cbind(med,se)
-
-  colnames(med) <- c("dist1", "data1", "median", "dist2", "data2", "se")
-
-  med <- cbind(med, rep(NA, nrow(med)))
-  colnames(med) <- c(colnames(med)[-ncol(med)], "type")
-
-  tmp <- med
-
-  med$type[(med$dist1 == "correlation") | (med$dist1 == "spearman")] <- "correlation"
-  med$type[!((med$dist1 == "correlation") | (med$dist1 == "spearman"))] <- "abs magnitude"
-
-
-  med_dist <- med[med$type == "abs magnitude",]
-  med_shape <- med[med$type == "correlation",]
-
-
-  levels(med$dist1)[3] = "pearson"
-
-  p <- ggplot(med, aes( x = data1, y = median, fill = dist1)) +
-    geom_bar(stat = "identity", position = "dodge")  +
-    geom_errorbar(aes(ymin = median-se, ymax = median+se),
-                  width = .2,
-                  position = position_dodge(.9)) +
-    scale_fill_manual("legend",
-                      values = c("maximum" = "#feb24c",
-                                 "manhattan" = "#fd8d3c", "euclidean" = "#fc4e2a",
-                                 "spearman" = "#a6bddb", "pearson" = "#054287")) +
-    labs(title = "NMI bar plot (median + se)", x = "Datasets", y = "NMI values") +
-    scale_y_continuous(limits = c(0, 1)) +
-    coord_flip()
-  return (p)
-
-}
 
 
 "run_kmeans_pipeline" <- function(mat, count = F, logMatrix = T, rep = 5, cores = 1) {
