@@ -2,7 +2,7 @@
 % Please edit documentation in R/evalScClustBench.R
 \name{evalScClustBench}
 \alias{evalScClustBench}
-\title{evaluateScClustBench}
+\title{evalScClustBench}
 \usage{
 evalScClustBench(sub.kmeans, method = "simlr")
 }
@@ -21,7 +21,7 @@ Evaluate cluster results from \emph{scClustBench} with evaluation metrics NMI (N
 Evaluate kmeans cluster result from \emph{scClustBench}
 }
 \examples{
-evaluateScClustBench(sub.simlr, method = "simlr")
-evaluateScClustBench(sub.kmeans, method = "kmeans")
+evalScClustBench(sub.simlr, method = "simlr")
+evalScClustBench(sub.kmeans, method = "kmeans")
 
 }

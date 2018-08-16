@@ -1,10 +1,10 @@
 #' Evaluate kmeans cluster result from \emph{scClustBench}
 #'
-#' @title evaluateScClustBench
+#' @title evalScClustBench
 #'
 #' @examples
-#' evaluateScClustBench(sub.simlr, method = "simlr")
-#' evaluateScClustBench(sub.kmeans, method = "kmeans")
+#' evalScClustBench(sub.simlr, method = "simlr")
+#' evalScClustBench(sub.kmeans, method = "kmeans")
 #'
 #' @param sub.kmeans An object returned from \emph{scClustBench}
 #' @param method A method used in \emph{scClustBench}
@@ -13,7 +13,7 @@
 #'
 #' @return A data frame with cluster evaluation for each similarity metric and for each repeats.
 #'
-#' @export evaluateScClustBench
+#' @export evalScClustBench
 #' @importFrom parallel stopCluster makeCluster detectCores clusterEvalQ
 #' @importFrom parallel parLapply
 #' @importFrom stats dnorm kmeans pbeta rnorm
