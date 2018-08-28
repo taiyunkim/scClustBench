@@ -61,10 +61,10 @@ To run scClust,
 
 ```r
 # SIMLR
-simlr.result <- scClust(mat, nCs, similarity = "pearson", method = "simlr", seed = 1, cores = 1, cores.ratio = 0)
+simlr.result <- scClust(mat, nCs, similarity = "pearson", method = "simlr", seed = 1, cores.ratio = 0)
 
 # K-means
-kmeans.result <- scClust(mat, nCs, similarity = "pearson", method = "kmeans", seed = 1, cores = 1, nstart = 10, iter.max = 10)
+kmeans.result <- scClust(mat, nCs, similarity = "pearson", method = "kmeans", seed = 1, nstart = 10, iter.max = 10)
 ```
 
 This function allows you to perform clustering with a user specified similarity metrics. The return values of `scClust` are identical to clustering methods for `Kmeans` and `SIMLR` functions.
