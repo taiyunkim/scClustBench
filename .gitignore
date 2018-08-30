@@ -4,3 +4,5 @@ src/*.dll
 scClust.Rproj
 .Rproj.user
 tmp/*
+.Rhistory
+.Rbuildignore
