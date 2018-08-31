@@ -36,6 +36,7 @@ devtools::install_github("taiyunkim/scClustBench")
 library(scClust)
 ```
 
+**NOTE:** *For mac users, the official cran mirror of R tools for OS X and R tools for OS X on r.research.att.com that lists the gfortran binary are out of date. You will need to update `gfortran` prior to this package installation.* 
 
 Current version of this package is implemented to run SIMLR (Wang et al, 2017) or k-means clustering methods with various similarity metrics.
 
