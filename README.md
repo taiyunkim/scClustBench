@@ -53,7 +53,7 @@ Available metrics include:
 For further demonstration, see:
 
 ```r
-browseVignette("scClust")
+browseVignettes("scClust")
 ```
 
 ### Section 1. Clustering with different similarity metrics with `scClust`
