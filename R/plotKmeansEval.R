@@ -67,6 +67,8 @@
                                  "spearman" = "#a6bddb", "pearson" = "#054287")) +
     labs(title = "NMI bar plot (median + se)", x = "Datasets", y = "NMI values") +
     scale_y_continuous(limits = c(0, 1)) +
+    theme(axis.text.y=element_blank(),
+          axis.ticks.y=element_blank()) +
     coord_flip()
   return (p)
 

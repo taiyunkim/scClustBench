@@ -56,6 +56,18 @@ For further demonstration, see:
 browseVignettes("scClust")
 ```
 
+### Load Data
+
+```r
+data(GSE82187.sample)
+mat <- GSE82187
+
+mat <- log2(mat+1)
+
+# set number of clusters (classes defined in colnames)
+nCs <- length(table(colnames(mat))
+```
+
 ### Section 1. Clustering with different similarity metrics with `scClust`
 
 To run scClust, 

@@ -24,21 +24,21 @@ vignette: >
 library(scClust)
 
 # Load dataset
-data("GSE45719")
+data("GSE82187.sample")
 
 
 # Show dataset
-GSE45719[1:5,1:5]
+GSE82187[1:5,1:5]
 
 # The dataset needs to be log-transformed
-GSE45719 <- log2(GSE45719+1)
+GSE82187 <- log2(GSE82187+1)
 
 
 # Number of clusters
-print(paste("GSE45719 dataset has ", length(table(colnames(GSE45719))), " clusters", sep = ""))
+print(paste("GSE82187 dataset has ", length(table(colnames(GSE82187))), " clusters", sep = ""))
 
-mat <- GSE45719
-nCs <- length(table(colnames(GSE45719)))
+mat <- GSE82187
+nCs <- length(table(colnames(GSE82187)))
 ```
 
 # Section 1. scClust
