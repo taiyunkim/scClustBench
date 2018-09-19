@@ -1,7 +1,7 @@
 ---
 title: "Using the scClust package for clustering"
 author: "Taiyun Kim"
-date: "13/08/2018"
+date: "19/09/2018"
 output: 
   html_document:
     toc: true
@@ -66,7 +66,7 @@ km.result <- scClust(mat, nCs, method = "kmeans", similarity = "pearson", geneFi
 ## Using SIMLR clustering to benchmark
 
 ```{r warning=F, error=F}
-simlr.bench <- scClustBench(mat, method = "simlr", similarity = NULL, cores = 4, rep = 2, cores.ratio = 0)
+simlr.bench <- scClustBench(mat, nCs, method = "simlr", similarity = NULL, cores = 4, rep = 2, cores.ratio = 0)
 
 simlr.bench.eval <- evalScClustBench(simlr.bench, method = "simlr")
 
@@ -78,7 +78,7 @@ p
 ## Using Kmeans clustering to benchmark
 
 ```{r warning=F, error=F}
-km.bench <- scClustBench(mat, method = "kmeans", similarity = NULL, rep = 2, cores = 4)
+km.bench <- scClustBench(mat, nCs, method = "kmeans", similarity = NULL, rep = 2, cores = 4)
 
 km.bench.eval <- evalScClustBench(km.bench, method = "kmeans")
 

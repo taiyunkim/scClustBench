@@ -175,8 +175,9 @@
 
 
 # returns Kmeans results
-"getKmeans" <- function(mat, similarity = NULL, seed = 1, cores = 1, os = "other", ...) {
-  nCluster <- length(levels(factor(colnames(mat))))
+"getKmeans" <- function(mat, nCs, similarity = NULL, seed = 1, cores = 1, os = "other", ...) {
+  # nCluster <- length(levels(factor(colnames(mat))))
+  nCluster <- nCs
 
   if (is.null(similarity)) {
     distMethods <- c("euclidean", "manhattan", "correlation", "spearman", "maximum")
@@ -221,11 +222,11 @@
 
 # assuming the colnames is the labels
 # subsets the matrix and return their kmeans results
-"kmeanSubMatrix" <- function(mat, p = 0.8, similarity = NULL, rep = 5, seed = 1, cores = 1, os = "other", ...) {
+"kmeanSubMatrix" <- function(mat, nCs, p = 0.8, similarity = NULL, rep = 5, seed = 1, cores = 1, os = "other", ...) {
   sub.mat <- subsetMatrix(mat, p, rep, seed)
 
   allResults <- lapply(sub.mat, FUN = function(i) {
-    getKmeans(i, similarity = similarity, seed = seed, cores = cores, os = os, ...)
+    getKmeans(i, nCs, similarity = similarity, seed = seed, cores = cores, os = os, ...)
   })
   return (allResults)
 }
@@ -289,9 +290,9 @@
 ## SIMLR
 ######################################################################
 
-"getSIMLR" <- function(mat, similarity = NULL, seed = 1, cores = 1, os = "other", ...) {
-  nCluster <- length(levels(factor(colnames(mat))))
-
+"getSIMLR" <- function(mat, nCs, similarity = NULL, seed = 1, cores = 1, os = "other", ...) {
+  # nCluster <- length(levels(factor(colnames(mat))))
+  nCluster <- nCs
   if (is.null(similarity)) {
     distMethods <- c("euclidean", "pearson", "spearman")
   } else {
@@ -335,11 +336,11 @@
 
 
 
-"simlrSubMatrix" <- function(mat, p = 0.8, similarity = NULL, rep = 5, seed = 1, cores = 1, os = "other", ...) {
+"simlrSubMatrix" <- function(mat, nCs, p = 0.8, similarity = NULL, rep = 5, seed = 1, cores = 1, os = "other", ...) {
   sub.mat <- subsetMatrix(mat, p, rep, seed)
 
   allResults <- lapply(sub.mat, FUN = function(i) {
-    getSIMLR(i, similarity = similarity, seed = seed, cores = cores, os = os, ...)
+    getSIMLR(i, nCs, similarity = similarity, seed = seed, cores = cores, os = os, ...)
   })
   # sub.mat <- subsetMatrix(mat, p = p, rep = rep, seed)
   #
