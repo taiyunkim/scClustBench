@@ -91,10 +91,10 @@ To run scClustBench,
 
 ```r
 # SIMLR
-simlr.result <- scClustBench(mat, method = "simlr", rep = 2, seed = 1, cores = 1, cores.ratio = 0)
+simlr.result <- scClustBench(mat, nCs, method = "simlr", rep = 2, seed = 1, cores = 1, cores.ratio = 0)
 
 # K-means
-kmeans.result <- scClustBench(mat, method = "kmeans", rep = 2, seed = 1, cores = 1, nstart = 10, iter.max = 10)
+kmeans.result <- scClustBench(mat, nCs, method = "kmeans", rep = 2, seed = 1, cores = 1, nstart = 10, iter.max = 10)
 ```
 
 
