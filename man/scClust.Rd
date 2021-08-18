@@ -4,8 +4,15 @@
 \alias{scClust}
 \title{scClust}
 \usage{
-scClust(mat, nCs, method = "simlr", similarity = "pearson",
-  geneFilter = 0.8, seed = 1, ...)
+scClust(
+  mat,
+  nCs,
+  method = "simlr",
+  similarity = "pearson",
+  geneFilter = 0.8,
+  seed = 1,
+  ...
+)
 }
 \arguments{
 \item{mat}{a (m x n) data matrix of gene expression measurements of individual cells with rows representing genes and columns representing cells.}
