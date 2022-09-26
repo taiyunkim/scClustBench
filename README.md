@@ -1,6 +1,6 @@
 # scClust
 
-This package is to perform clustering on single-cell RNA-sequencing data with different similarity metrics on k-means and SIMLR clustering methods.
+**scClust** is a package which performs k-means and SIMLR clustering on single-cell RNA-sequencing data using various similarity metrics.
 
 ## Requirements
 
