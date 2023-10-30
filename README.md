@@ -25,14 +25,14 @@ These include:
 
 
 ```r
-devtools::install_github("taiyunkim/scClustBench", build_vignettes = TRUE)
+devtools::install_github("SydneyBioX/scClustBench", build_vignettes = TRUE)
 library(scClust)
 ```
 
 Building the vignette may take some time. If you wish not to create the vignette during installation, try:
 
 ```r
-devtools::install_github("taiyunkim/scClustBench")
+devtools::install_github("SydneyBioX/scClustBench")
 library(scClust)
 ```
 
