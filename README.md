@@ -1,6 +1,6 @@
 # scClust
 
-This package is to perform clustering on single-cell RNA-sequencing data with different similarity metrics on k-means and SIMLR clustering methods.
+**scClust** is a package which performs k-means and SIMLR clustering on single-cell RNA-sequencing data using various similarity metrics.
 
 ## Requirements
 
@@ -25,14 +25,14 @@ These include:
 
 
 ```r
-devtools::install_github("taiyunkim/scClustBench", build_vignettes = TRUE)
+devtools::install_github("SydneyBioX/scClustBench", build_vignettes = TRUE)
 library(scClust)
 ```
 
 Building the vignette may take some time. If you wish not to create the vignette during installation, try:
 
 ```r
-devtools::install_github("taiyunkim/scClustBench")
+devtools::install_github("SydneyBioX/scClustBench")
 library(scClust)
 ```
 

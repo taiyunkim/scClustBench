@@ -4,9 +4,18 @@
 \alias{scClustBench}
 \title{scClustBench}
 \usage{
-scClustBench(mat, nCs, method = "simlr", similarity = NULL,
-  geneFilter = 0.8, rep = 5, subset_p = 0.8, cores = 1, seed = 1,
-  ...)
+scClustBench(
+  mat,
+  nCs,
+  method = "simlr",
+  similarity = NULL,
+  geneFilter = 0.8,
+  rep = 5,
+  subset_p = 0.8,
+  cores = 1,
+  seed = 1,
+  ...
+)
 }
 \arguments{
 \item{mat}{a (m x n) data matrix of gene expression measurements of individual cells with rows representing genes and columns representing cells. column names of the \emph{mat} must be cell types.}

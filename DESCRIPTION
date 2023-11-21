@@ -10,6 +10,23 @@ Encoding: UTF-8
 LazyData: true
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
-Imports: Rcpp (>= 0.11.0)
 LinkingTo: Rcpp
-RoxygenNote: 6.1.0.9000
+RoxygenNote: 7.1.1
+Imports:
+    Rcpp (>= 0.11.0),
+    parallel,
+    amap,
+    caret,
+    mclust,
+    dendextend,
+    igraph,
+    foreach,
+    doParallel,
+    doSNOW,
+    ggplot2,
+    Hmisc,
+    Matrix,
+    methods,
+    clusteval
+Remotes: 
+    ramhiser/clusteval

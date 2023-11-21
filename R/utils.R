@@ -91,11 +91,11 @@
   obj.list["truth"] <- NULL
   if (method == "kmeans") {
     results <- sapply(obj.list, FUN = function(i) {
-      cluster_similarity(as.numeric(factor(truth)), as.numeric(factor(i$cluster)), similarity = "jaccard", method = "independence")
+      cluster_similarity(as.numeric(factor(truth)), as.numeric(factor(i$cluster)), similarity = "jaccard")
     }, USE.NAMES = T)
   } else if (method == "simlr") {
     results <- sapply(obj.list, FUN = function(i) {
-      cluster_similarity(as.numeric(factor(truth)), as.numeric(factor(i$y$cluster)), similarity = "jaccard", method = "independence")
+      cluster_similarity(as.numeric(factor(truth)), as.numeric(factor(i$y$cluster)), similarity = "jaccard")
     }, USE.NAMES = T)
   }
 

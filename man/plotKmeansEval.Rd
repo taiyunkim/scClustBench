@@ -4,8 +4,7 @@
 \alias{plotKmeansEval}
 \title{plotKmeansEval}
 \usage{
-plotKmeansEval(kmeans.eval, eval.method = c("NMI", "FM", "ARI",
-  "Jaccard"))
+plotKmeansEval(kmeans.eval, eval.method = c("NMI", "FM", "ARI", "Jaccard"))
 }
 \arguments{
 \item{kmeans.eval}{An object returned from \emph{evalScClustBench}}
